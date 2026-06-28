@@ -1,0 +1,53 @@
+/* ── ToolCountBadgeComponent ──────────────────────────────────────────── */
+/* Matches ToolBadgeComponent.module.css styling conventions exactly.     */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  white-space: nowrap;
+  line-height: 1;
+  text-transform: none;
+  color: var(--tool-badge-accent, var(--text-primary));
+  box-shadow: var(--calculated-shadow-md);
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+  width: fit-content;
+}
+
+.badge:hover {
+  border-color: color-mix(
+    in srgb,
+    var(--tool-badge-accent, var(--accent-primary)) 40%,
+    transparent
+  );
+  background: color-mix(
+    in srgb,
+    var(--tool-badge-accent, var(--accent-primary)) 6%,
+    var(--background-surface)
+  );
+}
+
+.icon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+.label {
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.badge:hover .label {
+  opacity: 1;
+}

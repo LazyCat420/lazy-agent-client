@@ -1,0 +1,94 @@
+/* ═══════════════════════════════════════════════════════════════
+   ToolCallBadgeComponent — Individual tool call badge style.
+   For function-level invocations (read_file, search_file_contents, etc.)
+   rendered in conversation stats. Visually subtler than the
+   capability-level ToolBadgeComponent.
+   ═══════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  white-space: nowrap;
+  line-height: 1;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.badge:hover {
+  border-color: color-mix(in oklch, currentColor 35%, transparent);
+  background: color-mix(in oklch, currentColor 6%, var(--background-elevated));
+}
+
+.badge svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.badge:hover svg {
+  opacity: 1;
+}
+
+/* ── Label text ── */
+.label {
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+
+.badge:hover .label {
+  opacity: 1;
+}
+
+/* ── Active state (currently executing) ── */
+.badge-is-active-state {
+  border-color: currentColor;
+  background: color-mix(in oklch, currentColor 8%, var(--background-elevated));
+  box-shadow: 0 0 6px -1px color-mix(in oklch, currentColor 30%, transparent);
+}
+
+.badge-is-active-state svg {
+  opacity: 1;
+  animation: tool-call-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes tool-call-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ── Usage count ── */
+.count {
+  font-size: 8.5px;
+  font-weight: 600;
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.2s;
+}
+
+.badge:hover .count {
+  opacity: 0.9;
+}
+
+/* ── Container for a row of badges ── */
+.badge-layout-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3px;
+}

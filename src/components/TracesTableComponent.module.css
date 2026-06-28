@@ -1,0 +1,8 @@
+/* ── TracesTable expanded panels ──────────────────── */
+
+.expanded-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}

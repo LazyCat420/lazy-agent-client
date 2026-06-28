@@ -1,0 +1,289 @@
+/* Mic trigger button */
+.mic-button {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    background 0.2s;
+  flex-shrink: 0;
+
+  &:hover {
+    color: var(--accent-primary);
+    background: var(--background-elevated);
+  }
+}
+
+/* ── Shared thumb (play + record) ── */
+.audio-thumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 4px;
+  height: 40px;
+}
+
+.audio-compact {
+  height: 38px;
+}
+
+.audio-recording {
+  border-color: oklch(63.7% 0.2078 25.3 / 0.25);
+  background: oklch(63.7% 0.2078 25.3 / 0.04);
+}
+
+.audio-streaming {
+  position: relative;
+  border: none;
+  overflow: hidden;
+  padding: 0;
+}
+
+.streaming-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  image-rendering: pixelated;
+}
+
+.streaming-canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.streaming-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.streaming-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: oklch(1 0 0);
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px oklch(0.0% 0.0 0.0 / 0.4));
+}
+
+.streaming-bars {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 24px;
+  min-width: 50px;
+  overflow: hidden;
+}
+
+.streaming-bar {
+  width: 2px;
+  height: 18px;
+  border-radius: 1px;
+  background: oklch(100.0% 0.0001 263.3 / 0.9);
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: streaming-bar-pulse 1.2s ease-in-out infinite;
+  filter: drop-shadow(0 0 2px oklch(100.0% 0.0001 263.3 / 0.3));
+}
+
+@keyframes streaming-bar-pulse {
+  0%,
+  100% {
+    transform: scaleY(0.17);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.streaming-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: oklch(1 0 0);
+  white-space: nowrap;
+  flex-shrink: 0;
+  filter: drop-shadow(0 1px 3px oklch(0.0% 0.0 0.0 / 0.4));
+}
+
+/* ── Waveform area (shared) ── */
+.waveform-wrap {
+  flex: 1;
+  min-width: 50px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.waveform-canvas {
+  width: 100%;
+  height: 28px;
+  display: block;
+}
+
+/* ── Play / Pause ── */
+.play-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  border: none;
+  color: var(--background-base);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    opacity 0.15s,
+    transform 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.08);
+  }
+}
+
+/* ── Stop recording ── */
+.stop-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: none;
+  color: oklch(1 0 0);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+
+  &:hover {
+    background: var(--color-danger-strong);
+    transform: scale(1.1);
+  }
+}
+
+/* ── Timer (shared base) ── */
+.timer {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.recording-timer {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--color-danger);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Icon buttons ── */
+.icon-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  border-radius: 4px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--background-surface);
+  }
+}
+
+/* ── Volume slider ── */
+.volume-slider-wrap {
+  width: 52px;
+  flex-shrink: 0;
+}
+
+/* ── Faded elements for recording state (mirror player icons) ── */
+.faded-icon {
+  color: var(--text-secondary);
+  opacity: 0.2;
+  flex-shrink: 0;
+}
+
+.faded-slider {
+  width: 48px;
+  height: 4px;
+  background: var(--calculated-border-color);
+  opacity: 0.2;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Square layout (for workflow nodes) ── */
+.audio-square {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: var(--background-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.square-wave-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  padding: 8px 4px 0;
+}
+
+.square-wave-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.square-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  justify-content: center;
+}

@@ -1,0 +1,93 @@
+/* ── Admin Shell ── */
+
+.shell {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* The <header> element itself is now rendered by LayoutHeaderComponent,
+   so .header and .header-title are no longer needed. */
+
+
+
+.trace-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  height: 28px;
+  background: var(--header-contrast-hover-background, oklch(1 0 0 / 0.08));
+  border: 1px solid var(--header-contrast-border, oklch(1 0 0 / 0.15));
+  border-radius: var(--border-radius-sm);
+  color: var(--header-contrast-color, oklch(1 0 0 / 0.92));
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-transform: none;
+  letter-spacing: 0;
+
+  &:hover {
+    background: var(--header-contrast-hover-background, oklch(1 0 0 / 0.12));
+    border-color: var(--header-contrast-color-muted, oklch(1 0 0 / 0.3));
+  }
+}
+
+.trace-badge-label {
+  font-weight: 500;
+  opacity: 0.7;
+  text-transform: uppercase;
+  font-size: 0.625rem;
+  letter-spacing: 0.05em;
+}
+
+.trace-badge-id {
+  font-family: var(--font-mono, "SF Mono", "Fira Code", monospace);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+}
+
+.trace-badge-x {
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+
+.trace-badge:hover .trace-badge-x {
+  opacity: 1;
+}
+
+.main {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 28px 32px;
+}
+
+.main.no-scroll {
+  overflow: hidden;
+}
+
+.main.no-padding {
+  padding: 0;
+}
+
+@media (max-width: 767px) {
+  .main {
+    padding: 16px;
+  }
+}

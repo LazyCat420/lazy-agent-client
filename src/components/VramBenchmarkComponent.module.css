@@ -1,0 +1,289 @@
+/* ═══════════════════════════════════════════════════════════
+   VramBenchmarkComponent — aligned with user-facing pages
+   Uses PageHeaderComponent + StatsCard + FilterBar + TabBar
+   ═══════════════════════════════════════════════════════════ */
+
+.content {
+  padding: 32px 40px 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  animation: fade-in var(--transition-normal) ease-out;
+}
+
+/* ─── Stats grid ─── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.stat-wide {
+  grid-column: span 2;
+  cursor: pointer;
+}
+
+/* ─── Refresh button (in PageHeader right slot) ─── */
+.refresh-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  background: var(--background-surface);
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-button:hover {
+  background: var(--background-elevated);
+  color: var(--text-primary);
+  border-color: var(--accent-primary);
+}
+
+.refresh-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ─── Tab bar override ─── */
+.tab-bar {
+  margin-bottom: 0;
+  border-bottom: none;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-bottom: none;
+  border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+  padding: 0 16px;
+}
+
+/* ─── Chart card ─── */
+.chart-card {
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+  padding: 20px 24px 24px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.chart-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.chart-card:hover::before {
+  opacity: 1;
+}
+
+.chart-card:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  box-shadow: var(--calculated-shadow-glow);
+}
+
+.chart-description {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.chart-panels {
+  position: relative;
+  width: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+}
+
+/* ─── VRAM clip / zoom range inputs ─── */
+.vram-clip-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vram-clip-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.vram-clip-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.vram-clip-inputs:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px
+    var(--calculated-accent-primary-glow, oklch(58.5% 0.2041 277.1 / 0.1));
+}
+
+.vram-clip-input {
+  width: 58px;
+  padding: 4px 2px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+.vram-clip-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+  opacity: 0.6;
+}
+
+/* Hide number spinners */
+.vram-clip-input::-webkit-outer-spin-button,
+.vram-clip-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.vram-clip-separator {
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  opacity: 0.5;
+  user-select: none;
+}
+
+.vram-clip-unit {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.6;
+  user-select: none;
+  margin-left: 2px;
+}
+
+/* ─── Chart search highlight input ─── */
+.chart-search-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+  min-width: 160px;
+}
+
+.chart-search-group:focus-within {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px
+    var(--calculated-accent-primary-glow, oklch(58.5% 0.2041 277.1 / 0.1));
+}
+
+.chart-search-icon {
+  color: var(--text-muted);
+  opacity: 0.5;
+  flex-shrink: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.chart-search-group:focus-within .chart-search-icon {
+  opacity: 1;
+  color: var(--accent-primary);
+}
+
+.chart-search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.01em;
+}
+
+.chart-search-input::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+  opacity: 0.5;
+}
+
+.chart-search-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: none;
+  border-radius: 50%;
+  background: var(--background-surface);
+  color: var(--text-muted);
+  font-size: 0.625rem;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.chart-search-clear:hover {
+  background: var(--accent-primary);
+  color: var(--color-white);
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 768px) {
+  .content {
+    padding: 20px 16px 40px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .stat-wide {
+    grid-column: span 1;
+  }
+
+  .chart-card {
+    padding: 14px 12px;
+  }
+}

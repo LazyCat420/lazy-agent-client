@@ -1,0 +1,222 @@
+/* ── ThreePanelLayout ────────────────────────────────── */
+
+.three-panel-layout-container {
+  display: flex;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+/* Column wrapper (header → body), sits beside navSidebar */
+.layout-page-column {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-inline-size: 0;
+  block-size: 100%;
+  overflow: hidden;
+}
+
+/* ── Full-width header ─────────────────────────────── */
+/* Styles moved to LayoutHeaderComponent in @rodrigo-barraza/components-library */
+
+/* ── Body (sidebars + main) ────────────────────────── */
+
+.layout-body-layout-row {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── Sidebars ──────────────────────────────────────── */
+
+.left-sidebar-panel {
+  inline-size: var(--left-sidebar-width, 320px);
+  min-inline-size: var(--left-sidebar-min-width, 320px);
+  block-size: 100%;
+  border-inline-end: 1px solid var(--calculated-border-color);
+  background: var(--background-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden;
+  transition:
+    inline-size 0.5s ease,
+    min-inline-size 0.5s ease,
+    opacity 0.5s ease,
+    border-inline-end-width 0.5s ease;
+  opacity: 1;
+}
+
+/* ── Split Panel Groups (Photoshop-style stacked panels) ──── */
+
+.has-split-panels {
+  overflow: hidden;
+}
+
+.split-panel-top-group,
+.split-panel-bottom-group {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden;
+}
+
+/* Allow the TableComponent scroll area to fill the top panel and scroll vertically */
+.split-panel-top-group .table-component {
+  flex: 1;
+  min-block-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.split-panel-top-group [data-table-scroll] {
+  flex: 1;
+  overflow-y: auto;
+  min-block-size: 0;
+}
+
+.split-panel-resize-handle {
+  flex: 0 0 auto;
+  block-size: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: row-resize;
+  position: relative;
+  z-index: 10;
+  background: var(--calculated-border-color);
+  transition: background 0.2s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset-block: -8px;
+    inset-inline: 0;
+    z-index: 1;
+  }
+}
+
+.split-panel-resize-handle:hover {
+  background: var(--accent-primary, oklch(0.637 0.237 275));
+}
+
+.split-panel-resize-handle:active {
+  background: var(--accent-primary, oklch(0.637 0.237 275));
+}
+
+.split-panel-resize-grip {
+  inline-size: 32px;
+  block-size: 2px;
+  border-radius: 1px;
+  background: oklch(1 0 0 / 0.25);
+  transition: background 0.2s ease;
+}
+
+.split-panel-resize-handle:hover .split-panel-resize-grip {
+  background: oklch(1 0 0 / 0.5);
+}
+
+.split-panel-resize-handle:active .split-panel-resize-grip {
+  background: oklch(1 0 0 / 0.7);
+}
+
+.right-sidebar-panel {
+  inline-size: var(--right-sidebar-width, 320px);
+  min-inline-size: var(--right-sidebar-min-width, 320px);
+  block-size: 100%;
+  border-inline-start: 1px solid var(--calculated-border-color);
+  background: var(--background-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  min-block-size: 0;
+  overflow: hidden;
+  transition:
+    inline-size 0.5s ease,
+    min-inline-size 0.5s ease,
+    opacity 0.5s ease,
+    border-inline-start-width 0.5s ease;
+  opacity: 1;
+}
+
+.is-sidebar-hidden {
+  inline-size: 0 !important;
+  min-inline-size: 0 !important;
+  opacity: 0;
+  border-inline-start-width: 0 !important;
+  border-inline-end-width: 0 !important;
+  pointer-events: none;
+}
+
+/* ── Main Center ───────────────────────────────────── */
+
+.main-content-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Scrim overlay — darkens main content when a mobile drawer is open */
+.main-content-section::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: oklch(0.0% 0.0 0.0 / 0.7);
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.is-scrim-active-state::after {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 767px) {
+  .left-sidebar-panel,
+  .right-sidebar-panel {
+    position: absolute;
+    inset-block: 0;
+    inline-size: 100%;
+    min-inline-size: 100%;
+    z-index: 200;
+    border: none;
+    background: var(--background-base);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    will-change: translate;
+    transition: translate 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .left-sidebar-panel {
+    inset-inline: 0 auto;
+    translate: 0 0;
+  }
+
+  .right-sidebar-panel {
+    inset-inline: auto 0;
+    translate: 0 0;
+  }
+
+  .left-sidebar-panel.is-sidebar-hidden {
+    translate: -100% 0;
+    pointer-events: none;
+    border-width: 0;
+  }
+
+  .right-sidebar-panel.is-sidebar-hidden {
+    translate: 100% 0;
+    pointer-events: none;
+    border-width: 0;
+  }
+}

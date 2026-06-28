@@ -1,0 +1,362 @@
+/* ── ModelsTableComponent (Toolbar + Filters) ──────────────────── */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── Toolbar (search + provider filters) ───────────── */
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Search ─────────────────────────────────────────── */
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+/* ── Model name cell layout ───────────────────────── */
+
+.name-layout-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.model-name {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Inline badges (loaded / available / actions) ──── */
+
+.loaded-badge,
+.available-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.loaded-badge {
+  color: var(--color-success);
+  background: oklch(69.6% 0.1491 162.5 / 0.1);
+}
+
+.is-loading-state-badge {
+  color: var(--color-warning);
+  background: oklch(76.9% 0.1646 70.1 / 0.1);
+}
+
+.is-loading-state-spin {
+  animation: loading-spin 1s linear infinite;
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.inline-actions {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.35;
+  flex-shrink: 0;
+
+  &.is-active-state {
+    background: var(--color-success);
+    opacity: 1;
+    box-shadow: 0 0 8px oklch(69.6% 0.1491 162.5 / 0.5);
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+/* ── Modalities ────────────────────────────────────── */
+
+.modalities {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+.modality-arrow {
+  opacity: 0.4;
+  margin: 0 1px;
+}
+
+/* ── Favorite star ─────────────────────────────────── */
+
+.favorite-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.favorite-star {
+  color: var(--text-secondary);
+  opacity: 0.4;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+.favorite-star-is-active-state {
+  color: var(--color-warning);
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+/* ── Favorites filter override ─────────────────────── */
+/* Tint the star filter button amber when active, matching row-level fav stars */
+
+.toolbar [class*="discreteBtnActive"] svg[style*="var(--color-warning)"] {
+  filter: drop-shadow(0 0 4px oklch(76.9% 0.1646 70.1 / 0.5));
+}
+
+/* ── Selection checkbox ───────────────────────────── */
+
+.select-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 2px;
+  padding: 1px;
+  transition: all 0.15s ease;
+}
+
+.select-box {
+  color: var(--text-secondary);
+  opacity: 0.3;
+  transition: all 0.15s ease;
+
+  &:hover {
+    opacity: 0.6;
+  }
+}
+
+.select-wrap:hover .select-box {
+  opacity: 0.6;
+  color: var(--accent-primary);
+}
+
+.select-check {
+  color: var(--accent-primary);
+  transition: all 0.15s ease;
+}
+
+.select-partial {
+  color: var(--text-tertiary);
+  opacity: 0.6;
+  transition: all 0.15s ease;
+}
+
+.select-wrap-is-active-state {
+  .select-check {
+    filter: drop-shadow(
+      0 0 3px color-mix(in oklch, var(--accent-primary) 40%, transparent)
+    );
+  }
+}
+
+/* ── Selected row highlight ───────────────────────── */
+
+.selected-layout-row td {
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 8%,
+    transparent
+  ) !important;
+  border-bottom-color: color-mix(
+    in srgb,
+    var(--accent-primary) 15%,
+    var(--calculated-border-color)
+  ) !important;
+}
+
+.selected-layout-row td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent-primary);
+}
+
+.selected-layout-row:hover td {
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 14%,
+    transparent
+  ) !important;
+}
+
+/* ── Animations ────────────────────────────────────── */
+
+/* ── Benchmark mode cells ──────────────────────────── */
+
+.bench-passed-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-success);
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.bench-failed-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-danger);
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.bench-rate-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bench-rate-bar {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--background-elevated);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.bench-rate-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+}
+
+.bench-rate-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  min-width: 28px;
+}
+
+.bench-latency-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+
+  & svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Benchmark config columns (Type, Thinking, Tools) ── */
+
+.bench-agent-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: color-mix(in oklch, var(--accent-primary) 10%, transparent);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.bench-model-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.bench-thinking-on {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-violet);
+  background: oklch(70.9% 0.1592 293.5 / 0.1);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.bench-tools-on {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-success);
+  background: oklch(77.3% 0.1535 163.3 / 0.1);
+  padding: 2px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.bench-flag-off {
+  color: var(--text-secondary);
+  opacity: 0.3;
+  font-size: 0.625rem;
+}

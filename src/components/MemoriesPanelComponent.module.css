@@ -1,0 +1,278 @@
+/* ============================================================
+   Memories Panel — read-only view of agent memories
+   Follows the same design language as SkillsPanel
+   ============================================================ */
+
+.container {
+  composes: container from "./PanelShared.module.css";
+  --panel-accent: var(--color-warning);
+  overflow-y: hidden;
+}
+
+.scrollable-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  min-height: 0;
+  flex: 1 1 0;
+}
+
+/* ── Filter Bar ────────────────────────────────────────────── */
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.search-field {
+  /* No overrides — render SearchInputComponent at its default size */
+}
+
+/* ── (Header actions moved to SidebarTabHeaderComponent) ───── */
+
+/* ── Empty State ────────────────────────────────────────────── */
+
+.empty-state {
+  composes: empty-state from "./PanelShared.module.css";
+}
+
+.empty-icon {
+  composes: empty-icon from "./PanelShared.module.css";
+}
+
+.empty-icon-disabled {
+  background: color-mix(in srgb, var(--text-tertiary) 10%, transparent);
+  color: var(--text-tertiary);
+  opacity: 0.5;
+}
+
+.settings-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-top: 4px;
+}
+
+.settings-link:hover {
+  background: color-mix(in srgb, var(--accent-primary) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px
+    color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
+
+.empty-title {
+  composes: empty-title from "./PanelShared.module.css";
+}
+
+.empty-subtitle {
+  composes: empty-subtitle from "./PanelShared.module.css";
+}
+
+/* ── Loading state ──────────────────────────────────────────── */
+
+.is-loading-state {
+  composes: is-loading-state from "./PanelShared.module.css";
+}
+
+/* ── Error state ────────────────────────────────────────────── */
+
+.error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  font-size: var(--font-size-sm);
+  color: var(--color-rose);
+  background: color-mix(in srgb, var(--color-rose) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-rose) 20%, transparent);
+  border-radius: 4px;
+}
+
+/* ── Consolidation Toast ──────────────────────────────────── */
+
+.toast {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  animation: toast-slide-in 0.25s ease-out;
+}
+
+@keyframes toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-success {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  color: var(--color-success);
+  border: 1px solid color-mix(in srgb, var(--color-success) 25%, transparent);
+}
+
+.toast-info {
+  background: color-mix(in srgb, var(--color-info) 12%, transparent);
+  color: var(--color-info);
+  border: 1px solid color-mix(in srgb, var(--color-info) 25%, transparent);
+}
+
+.toast-error {
+  background: color-mix(in srgb, var(--color-danger-light) 12%, transparent);
+  color: var(--color-danger-light);
+  border: 1px solid
+    color-mix(in srgb, var(--color-danger-light) 25%, transparent);
+}
+
+/* ── Consolidation History Section ─────────────────────────── */
+
+.history-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: color-mix(in srgb, var(--background-elevated) 40%, transparent);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  animation: toast-slide-in 0.2s ease-out;
+}
+
+.history-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.history-section-title {
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.history-empty {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 12px 0;
+}
+
+.history-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 6px 8px;
+  background: var(--background-surface);
+  border: 1px solid
+    color-mix(in srgb, var(--calculated-border-color) 60%, transparent);
+  border-radius: 5px;
+  transition: border-color 0.15s ease;
+
+  &:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-violet) 30%,
+      var(--calculated-border-color)
+    );
+  }
+}
+
+.history-entry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.history-trigger {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--color-violet) 12%, transparent);
+  color: var(--color-violet);
+}
+
+.trigger-manual {
+  background: color-mix(in srgb, var(--color-info) 12%, transparent);
+  color: var(--color-info);
+}
+
+.trigger-scheduled {
+  background: color-mix(in srgb, var(--color-violet) 12%, transparent);
+  color: var(--color-violet);
+}
+
+.trigger-conversation-threshold {
+  background: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  color: var(--color-warning);
+}
+
+.history-time {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+}
+
+.history-summary {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.history-stats {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.625rem;
+  color: var(--text-muted);
+
+  & span {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+}
+
+/* ── Infinite Scroll Sentinel & Footer ─────────────────────── */
+
+.sentinel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 0;
+}
+
+.end-of-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding: 16px 0;
+  text-align: center;
+  gap: 6px;
+  opacity: 0.6;
+}

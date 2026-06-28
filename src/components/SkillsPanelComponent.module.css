@@ -1,0 +1,378 @@
+/* ============================================================
+   Skills Panel — CRUD interface for project-scoped agent skills
+   Follows the same design language as CustomToolsPanel
+   ============================================================ */
+
+.container {
+  composes: container from "./PanelShared.module.css";
+  --panel-accent: var(--color-purple);
+}
+
+/* ── Empty State ────────────────────────────────────────────── */
+
+.empty-state {
+  composes: empty-state from "./PanelShared.module.css";
+}
+
+.empty-icon {
+  composes: empty-icon from "./PanelShared.module.css";
+}
+
+.empty-title {
+  composes: empty-title from "./PanelShared.module.css";
+}
+
+.empty-subtitle {
+  composes: empty-subtitle from "./PanelShared.module.css";
+}
+
+/* ── Skill Card ─────────────────────────────────────────────── */
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-purple) 30%,
+      var(--calculated-border-color)
+    );
+    box-shadow: 0 2px 8px
+      color-mix(in oklch, var(--color-purple) 8%, transparent);
+  }
+}
+
+.skill-card-disabled {
+  opacity: 0.5;
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: color-mix(in oklch, var(--color-purple) 12%, transparent);
+  color: var(--color-purple);
+  flex-shrink: 0;
+}
+
+.skill-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.skill-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skill-description {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.skill-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.skill-action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--text-primary);
+    background: color-mix(in oklch, var(--text-muted) 12%, transparent);
+  }
+}
+
+.skill-delete-button:hover {
+  color: var(--color-rose) !important;
+  background: color-mix(in oklch, var(--color-rose) 12%, transparent) !important;
+}
+
+.skill-content-preview {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  line-height: 1.5;
+  white-space: pre-wrap;
+  padding: 8px;
+  background: color-mix(in oklch, var(--background-elevated) 60%, transparent);
+  border-radius: 6px;
+  font-family: var(--font-mono, "JetBrains Mono", "Fira Code", monospace);
+  border: 1px solid
+    color-mix(in oklch, var(--calculated-border-color) 50%, transparent);
+}
+
+.skill-char-count {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.skill-char-count-warn {
+  color: var(--color-warning);
+}
+
+/* ── Confirm Delete ─────────────────────────────────────────── */
+
+.confirm-layout-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.confirm-label {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--color-rose);
+  font-weight: 500;
+}
+
+.confirm-button {
+  composes: confirm-button from "./PanelShared.module.css";
+}
+
+.confirm-button-element-yes {
+  background: color-mix(in oklch, var(--color-rose) 15%, transparent);
+  color: var(--color-rose);
+  border-color: color-mix(in oklch, var(--color-rose) 30%, transparent);
+
+  &:hover {
+    background: color-mix(in oklch, var(--color-rose) 25%, transparent);
+  }
+}
+
+.confirm-button-element-no {
+  background: transparent;
+  color: var(--text-muted);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}
+
+/* ── Edit / Create Form ─────────────────────────────────────── */
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--calculated-border-color);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+
+  h3 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+}
+
+.cancel-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: var(--text-primary);
+    background: color-mix(in oklch, var(--text-muted) 12%, transparent);
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+.input {
+  padding: 7px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: var(--color-purple);
+    box-shadow: 0 0 0 2px
+      color-mix(in oklch, var(--color-purple) 15%, transparent);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.textarea {
+  padding: 8px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  outline: none;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.15s ease;
+  font-family: inherit;
+
+  &:focus {
+    border-color: var(--color-purple);
+    box-shadow: 0 0 0 2px
+      color-mix(in oklch, var(--color-purple) 15%, transparent);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.content-textarea {
+  min-height: 200px;
+  font-family: var(--font-mono, "JetBrains Mono", "Fira Code", monospace);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  tab-size: 2;
+  white-space: pre-wrap;
+}
+
+.hint {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.char-counter {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  text-align: right;
+  margin-top: -2px;
+}
+
+.char-counter-warn {
+  color: var(--color-warning);
+}
+
+.char-counter-danger {
+  color: var(--color-rose);
+}
+
+/* ── Form Actions ───────────────────────────────────────────── */
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--calculated-border-color);
+  flex-shrink: 0;
+}
+
+.save-button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: oklch(1 0 0);
+  background: var(--color-purple);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover:not(:disabled) {
+    background: color-mix(in oklch, var(--color-purple) 90%, oklch(1 0 0));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px
+      color-mix(in oklch, var(--color-purple) 30%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.cancel-form-button {
+  padding: 8px 14px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--text-primary);
+    border-color: var(--text-secondary);
+  }
+}

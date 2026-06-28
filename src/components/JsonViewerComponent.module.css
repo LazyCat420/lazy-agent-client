@@ -1,0 +1,138 @@
+/* ── JSON Viewer ── */
+.viewer {
+  background: var(--background-base);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--calculated-border-subtle);
+  background: var(--background-elevated);
+  border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-family: var(--font-sans, inherit);
+}
+
+.copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--calculated-border-color);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font-sans, inherit);
+
+  &:hover {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+  }
+}
+
+.tree {
+  padding: 10px 12px;
+  overflow-x: auto;
+}
+
+/* ── Node structure ── */
+.node {
+  user-select: text;
+}
+
+.json-layout-row {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  white-space: pre;
+  padding: 0 0 0 2px;
+  border-radius: 2px;
+  transition: background 0.1s;
+
+  &:hover {
+    background: var(--calculated-accent-primary-glow);
+  }
+}
+
+.children {
+  padding-left: 18px;
+  border-left: 1px solid var(--calculated-border-subtle);
+  margin-left: 6px;
+}
+
+/* ── Chevron ── */
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+  transition: transform 0.15s ease;
+  margin-right: 2px;
+  flex-shrink: 0;
+}
+
+.chevron-open {
+  transform: rotate(90deg);
+}
+
+/* ── Key ── */
+.key {
+  color: oklch(74.3% 0.1349 311.0);
+}
+
+/* ── Brackets ── */
+.bracket {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.comma {
+  color: var(--text-muted);
+}
+
+/* ── Collapsed preview ── */
+.is-collapsed-state {
+  color: var(--text-secondary);
+}
+
+.ellipsis {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: var(--font-size-xs);
+  padding: 0 4px;
+}
+
+.value-string {
+  color: oklch(0.78 0.12 140);
+  word-break: break-all;
+}
+
+.value-number {
+  color: oklch(0.75 0.12 250);
+}
+
+.value-boolean {
+  color: oklch(0.72 0.14 300);
+}
+
+.value-null {
+  color: oklch(0.55 0 0);
+  font-style: italic;
+}

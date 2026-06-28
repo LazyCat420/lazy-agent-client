@@ -1,0 +1,128 @@
+/* ── ModelPickerPopoverComponent ────────────────────────────────────── */
+/* Trigger rendering is delegated to SelectComponent from the library */
+
+.model-picker-container {
+  position: relative;
+}
+
+/* ── Trigger overrides ─────────────────────────────────────────────── */
+
+.trigger-is-active-state {
+  border-color: color-mix(in oklch, var(--accent-primary) 50%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 6%,
+    var(--background-surface)
+  );
+}
+
+.trigger-no-model-warning {
+  outline: 1px solid var(--color-warning);
+  outline-offset: -1px;
+}
+
+.tooltip-capabilities {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 2px;
+}
+
+/* ── Popover panel (portal-rendered to body) ──────────────────────── */
+
+.popover {
+  position: fixed;
+  z-index: 9999;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 2px;
+  box-shadow:
+    0 24px 64px oklch(0.0% 0.0 0.0 / 0.45),
+    0 4px 16px oklch(0.0% 0.0 0.0 / 0.25),
+    inset 0 1px 0 oklch(100.0% 0.0001 263.3 / 0.04);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  max-height: 75dvh;
+  transition: left 0.5s ease;
+  animation: popover-in-down 0.18s cubic-bezier(0.2, 0, 0, 1.1) forwards;
+}
+
+/* Flipped: anchored above the trigger */
+.popover-flipped {
+  animation-name: popover-in-up;
+}
+
+/* ── Popover header ─────────────────────────────────────────────────── */
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--calculated-border-color);
+  flex-shrink: 0;
+}
+
+.popover-search-input {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Popover body ─────────────────────────────────────────────────── */
+
+.popover-body {
+  flex: 1;
+  min-height: 0;
+  overflow: visible;
+  font-size: 0.625rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ModelsTableComponent .container — flex column filling remaining space */
+.popover-body > div {
+  border-radius: 0;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* FilterBar — stays at top, doesn't scroll.
+   overflow: visible lets FilterDropdownComponent's
+   absolutely-positioned .dropdown-menu escape. */
+.popover-body > div > div:first-child {
+  background: var(--background-surface);
+  margin-bottom: 0;
+  border: none;
+  border-bottom: 1px solid var(--calculated-border-color);
+  border-radius: 0;
+  padding: 10px 14px;
+  flex-shrink: 0;
+  overflow: visible;
+  position: relative;
+  z-index: 10;
+}
+
+/* TableComponent .container — flex fill */
+.popover-body > div > div:last-child {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* [data-table-scroll] — both-axis scroll, fills remaining space.
+   TableComponent's built-in drag-to-scroll handles both axes. */
+.popover-body [data-table-scroll] {
+  border: none;
+  border-radius: 0;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}

@@ -1,0 +1,269 @@
+/* ── Sidebar Filters — Dropdown + Badge pattern ── */
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 12px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-layout-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* ── Dropdown (matches DatePicker trigger style) ── */
+.dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: var(--input-height);
+  padding: 0 12px;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background: var(--calculated-select-background-color);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+  white-space: nowrap;
+  user-select: none;
+
+  &:hover {
+    border-color: oklch(58.5% 0.2041 277.1 / 0.3);
+  }
+}
+
+.trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.trigger-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+
+.trigger-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trigger-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  background: var(--calculated-accent-primary-glow);
+  border-radius: 8px;
+  line-height: 1;
+}
+
+.dropdown-trigger-open {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px var(--calculated-accent-primary-glow);
+}
+
+.chevron {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-left: 4px;
+  transition: transform 0.2s;
+}
+
+.chevron-open {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown Menu ── */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 180px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-md, 6px);
+  box-shadow: var(--calculated-shadow-lg, 0 12px 40px oklch(0.0% 0.0 0.0 / 0.25));
+  padding: 4px 0;
+  animation: dropdown-slide-in 0.15s ease-out;
+}
+
+@keyframes dropdown-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-group {
+  padding: 2px 0;
+}
+
+.menu-group + .menu-group {
+  border-top: 1px solid
+    var(--calculated-border-subtle, var(--calculated-border-color));
+}
+
+.menu-group-label {
+  padding: 6px 12px 3px;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 5px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  text-align: left;
+}
+
+.menu-item:hover {
+  background: var(
+    --calculated-accent-primary-subtle,
+    var(--background-elevated)
+  );
+  color: var(--text-primary);
+}
+
+.menu-item-is-active-state {
+  color: var(--text-primary);
+  background: var(
+    --calculated-accent-primary-subtle,
+    var(--calculated-accent-primary-glow)
+  );
+}
+
+.menu-item-is-active-state:hover {
+  background: var(
+    --calculated-accent-primary-subtle,
+    var(--calculated-accent-primary-glow)
+  );
+}
+
+.menu-check {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+/* ── Scrollbar styling for menu ── */
+.dropdown-menu::-webkit-scrollbar {
+  width: 4px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: var(--calculated-border-color);
+  border-radius: 2px;
+}
+
+/* ── Badges ── */
+.badge-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 6px 2px 5px;
+  height: 22px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--badge-color, var(--text-secondary));
+  background: var(--badge-background, var(--background-elevated));
+  border: 1px solid var(--badge-border, var(--calculated-border-color));
+  border-radius: var(--border-radius-sm, 4px);
+  white-space: nowrap;
+  user-select: none;
+  cursor: default;
+  animation: badge-fade-in 0.2s ease-out;
+}
+
+@keyframes badge-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.badge-label {
+  line-height: 1;
+}
+
+.badge-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  margin-left: 1px;
+  border: none;
+  border-radius: 2px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.12s ease;
+}
+
+.badge-remove:hover {
+  opacity: 1;
+  background: oklch(100.0% 0.0001 263.3 / 0.08);
+}

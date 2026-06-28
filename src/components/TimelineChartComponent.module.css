@@ -1,0 +1,69 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+/* ── Tab bar ── */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.granularity-picker {
+  flex-shrink: 0;
+  min-inline-size: 90px;
+}
+
+/* ── Chart area ── */
+
+.chart-area {
+  width: 100%;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 180px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+}
+
+/* ── Tooltip ── */
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: oklch(19.4% 0.0162 279.2 / 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid oklch(100.0% 0.0001 263.3 / 0.08);
+  border-radius: 6px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 24px oklch(0.0% 0.0 0.0 / 0.4);
+}
+
+.tooltip-label {
+  font-size: var(--font-size-xs);
+  color: oklch(49.3% 0.0392 273.9);
+  font-weight: 500;
+}
+
+.tooltip-value {
+  font-size: 0.8125rem;
+  font-weight: 600;
+}

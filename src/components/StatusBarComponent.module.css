@@ -1,0 +1,271 @@
+/* ── StatusBarComponent — animated status bar ─────────── */
+
+.status-bar {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 4px;
+  min-height: 4px;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0.35;
+  margin-top: 6px;
+  background: var(--background-elevated);
+  transition:
+    height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    box-shadow 0.3s ease;
+}
+
+/* ── Progress fill: width 0% → 100%, left to right ── */
+
+.status-bar-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1;
+  transition: width 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+
+  background: linear-gradient(
+    90deg,
+    var(--gradient-stop-1, oklch(0.55 0.04 257)) 0%,
+    var(--gradient-stop-2, oklch(0.60 0.05 257)) 16%,
+    var(--gradient-stop-3, oklch(0.55 0.04 257)) 33%,
+    var(--gradient-stop-4, oklch(0.60 0.05 257)) 50%,
+    var(--gradient-stop-5, oklch(0.55 0.04 257)) 66%,
+    var(--gradient-stop-6, oklch(0.60 0.05 257)) 83%,
+    var(--gradient-stop-7, oklch(0.55 0.04 257)) 100%
+  );
+  background-size: 300% 100%;
+  animation: status-bar-gradient-flow 6s linear infinite;
+}
+
+@keyframes status-bar-gradient-flow {
+  from {
+    background-position: 0% 0%;
+  }
+  to {
+    background-position: 100% 0%;
+  }
+}
+
+/* Completing flash: snap to 100% quickly before phase reset */
+.status-bar-fill-is-completing-state {
+  transition: width 180ms ease-out;
+}
+
+/* Hide fill when inactive */
+.status-bar:not(.status-bar-is-active-state) .status-bar-fill {
+  opacity: 0;
+}
+
+/* Awaiting phase: desaturated, frozen */
+.status-bar-awaiting .status-bar-fill {
+  animation: none;
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+
+/* Sub-agent variant */
+.status-bar-sub-agent {
+  height: 28px;
+  min-height: 28px;
+  opacity: 0.6;
+}
+
+.status-bar-is-active-state {
+  height: 28px;
+  min-height: 28px;
+  opacity: 1;
+  box-shadow:
+    0 0 8px -2px
+      color-mix(in oklch, var(--phase-pulse, oklch(0.708 0.1868 53.3)) 20%, transparent),
+    0 0 14px -4px
+      color-mix(in oklch, var(--phase-pulse, oklch(0.774 0.1784 79.8)) 10%, transparent);
+}
+
+.status-bar-awaiting {
+  box-shadow: none;
+}
+
+.status-bar-delegating {
+  box-shadow:
+    0 0 8px -2px color-mix(in oklch, oklch(0.794 0.1289 216.3) 15%, transparent),
+    0 0 14px -4px color-mix(in oklch, oklch(0.712 0.1208 221.2) 8%, transparent);
+}
+
+/* ── Overlay (text, icons, chips) ── */
+
+.status-bar-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  z-index: 2;
+  background: oklch(0.0% 0.0 0.0 / 0.3);
+  border-radius: 4px;
+  animation: status-bar-overlay-in 0.3s ease;
+}
+
+@keyframes status-bar-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Icon slots ── */
+
+.status-bar-icon {
+  flex-shrink: 0;
+  color: oklch(100.0% 0.0001 263.3 / 0.7);
+  filter: drop-shadow(0 1px 2px oklch(0.0% 0.0 0.0 / 0.3));
+  display: inline-flex;
+  align-items: center;
+}
+
+.status-bar-emoji {
+  font-size: 0.625rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ── Label ── */
+
+.status-bar-message {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--phase-text, oklch(100.0% 0.0001 263.3 / 0.9));
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px oklch(0.0% 0.0 0.0 / 0.5);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Progress percentage chip ── */
+
+.status-bar-progress {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+  padding: 1px 5px;
+  background: oklch(100.0% 0.0001 263.3 / 0.12);
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  min-width: 28px;
+  text-align: center;
+}
+
+/* ── Iteration chip ── */
+
+.status-bar-iter {
+  font-size: 0.5625rem;
+  font-weight: 500;
+  opacity: 0.7;
+  padding: 1px 5px;
+  background: oklch(100.0% 0.0001 263.3 / 0.1);
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Speed chip (tok/s) ── */
+
+.status-bar-speed {
+  font-size: 0.5625rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.9;
+  padding: 1px 5px;
+  background: oklch(86.1% 0.173 91.9 / 0.15);
+  color: oklch(0.913 0.2005 106.6);
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+/* ── Pulse dot ── */
+
+.status-bar-pulse {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--phase-pulse, oklch(100.0% 0.0001 263.3 / 0.8));
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  animation: status-bar-pulse-dot 1.4s ease-in-out infinite;
+}
+
+@keyframes status-bar-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+  50% {
+    opacity: 0.3;
+    scale: 0.6;
+  }
+}
+
+/* ── Phase-specific overlay themes ── */
+
+.phase-is-loading-state {
+  background: oklch(62.3% 0.1881 259.8 / 0.25);
+  --phase-text: oklch(0.879 0.0625 266.8);
+  --phase-pulse: oklch(0.704 0.158 269.1);
+}
+
+.phase-is-prefilling-state {
+  background: oklch(76.9% 0.1646 70.1 / 0.2);
+  --phase-text: oklch(0.93 0.1376 105);
+  --phase-pulse: oklch(0.843 0.1896 94.3);
+}
+
+.phase-is-executing-state {
+  background: oklch(70.5% 0.191 41 / 0.2);
+  --phase-text: oklch(0.93 0.15 60);
+  --phase-pulse: oklch(0.783 0.178 41);
+}
+
+.phase-is-thinking-state {
+  background: oklch(62.7% 0.2326 303.9 / 0.2);
+  --phase-text: oklch(0.82 0.1366 311.3);
+  --phase-pulse: oklch(0.709 0.2255 311.3);
+}
+
+.phase-is-generating-state {
+  background: oklch(72.3% 0.192 149.6 / 0.2);
+  --phase-text: oklch(0.928 0.0952 154.4);
+  --phase-pulse: oklch(0.807 0.2181 150.3);
+}
+
+.phase-is-starting-state {
+  background: oklch(55.4% 0.0408 257.4 / 0.2);
+  --phase-text: oklch(0.868 0.0216 265);
+  --phase-pulse: oklch(0.709 0.0389 269.2);
+}
+
+.phase-is-delegating-state {
+  background: oklch(71.5% 0.1258 215.2 / 0.2);
+  --phase-text: oklch(0.916 0.0753 207.4);
+  --phase-pulse: oklch(0.794 0.1289 216.3);
+}
+
+.phase-is-awaiting-state {
+  background: oklch(55.4% 0.0408 257.4 / 0.15);
+  --phase-text: oklch(0.868 0.0216 265);
+  --phase-pulse: oklch(0.709 0.0389 269.2);
+}

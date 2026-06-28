@@ -1,0 +1,220 @@
+/* ── AgentPickerComponent — Popover + Agent Items ─────────────────── */
+/* Trigger rendering is delegated to SelectComponent from the library */
+
+.agent-picker-container {
+  position: relative;
+}
+
+/* ── Add-mode trigger overrides ────────────── */
+
+.trigger-add {
+  gap: 8px;
+  padding: 0 14px 0 10px;
+}
+
+.trigger-add-open {
+  border-color: var(--accent-primary);
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 8%,
+    var(--background-surface)
+  );
+  box-shadow: 0 0 0 2px
+    color-mix(in oklch, var(--accent-primary) 20%, transparent);
+}
+
+.trigger-add-is-active-state {
+  border-color: color-mix(in oklch, var(--accent-primary) 50%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 6%,
+    var(--background-surface)
+  );
+}
+
+.trigger-add-icon {
+  flex-shrink: 0;
+  color: var(--accent-primary);
+  opacity: 0.8;
+}
+
+.trigger-add-is-active-state .trigger-add-icon {
+  opacity: 1;
+}
+
+/* ── Popover ───────────────────────────────── */
+
+.popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  min-width: 260px;
+  width: max-content;
+  max-width: 320px;
+  max-height: min(460px, calc(100vh - 120px));
+  display: flex;
+  flex-direction: column;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius);
+  box-shadow:
+    0 8px 32px oklch(0.0% 0.0 0.0 / 0.25),
+    0 2px 8px oklch(0.0% 0.0 0.0 / 0.1);
+  animation: agent-picker-in 0.15s ease-out;
+  overflow: hidden;
+}
+
+
+
+.agent-list-scrollable-container {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+}
+
+.no-agents-found-message {
+  padding: 16px;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+@keyframes agent-picker-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+/* ── Agent Items ─────────────────────────── */
+
+.agent-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  cursor: pointer;
+  transition:
+    background 0.12s ease,
+    color 0.12s ease;
+  color: var(--text-primary);
+  text-align: left;
+
+  /* Hover state */
+  &[data-is-highlighted-state="true"] {
+    background: color-mix(
+      in srgb,
+      var(--agent-accent, var(--color-indigo)) 14%,
+      var(--background-surface)
+    );
+  }
+
+  /* Active/selected state */
+  &[data-is-active-state="true"] {
+    background: color-mix(
+      in srgb,
+      var(--agent-accent, var(--color-indigo)) 10%,
+      var(--background-surface)
+    );
+  }
+
+  /* Combined: highlighted + active */
+  &[data-is-active-state="true"][data-is-highlighted-state="true"] {
+    background: color-mix(
+      in srgb,
+      var(--agent-accent, var(--color-indigo)) 18%,
+      var(--background-surface)
+    );
+  }
+}
+
+.agent-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.agent-name {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.agent-meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tool-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: color-mix(in oklch, var(--text-tertiary) 10%, transparent);
+  font-size: 0.625rem;
+  font-weight: 500;
+}
+
+.is-active-state-check {
+  color: var(--color-indigo);
+  flex-shrink: 0;
+}
+
+/* ── Add button (per-row) ────────────────── */
+
+.add-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid var(--calculated-border-color);
+  background: transparent;
+  transition: all 0.15s ease;
+  opacity: 0.5;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.agent-item[data-is-highlighted-state="true"] .add-button {
+  opacity: 1;
+  background: color-mix(in oklch, var(--accent-primary) 12%, transparent);
+  border-color: color-mix(in oklch, var(--accent-primary) 40%, transparent);
+  color: var(--accent-primary);
+}
+
+.tooltip-capabilities {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 2px;
+}

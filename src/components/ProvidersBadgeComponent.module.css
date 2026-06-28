@@ -1,0 +1,47 @@
+/* ── ProvidersBadgeComponent ──────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: oklch(0.566 0.2532 291.3);
+  background: oklch(58.5% 0.2041 277.1 / 0.08);
+  border: 1px solid oklch(58.5% 0.2041 277.1 / 0.2);
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+
+.badge:hover {
+  border-color: oklch(58.5% 0.2041 277.1 / 0.45);
+  background: oklch(58.5% 0.2041 277.1 / 0.12);
+}
+
+.badge svg {
+  flex-shrink: 0;
+}
+
+.provider-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+/* ── Mini ─────────────────────────────────────────── */
+
+.mini {
+  font-size: 0.4375rem;
+  padding: 1px 4px;
+  gap: 2px;
+}
+
+.mini .provider-name {
+  max-width: 120px;
+}

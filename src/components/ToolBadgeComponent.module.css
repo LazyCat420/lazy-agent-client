@@ -1,0 +1,96 @@
+/* ═══════════════════════════════════════════════════════════════
+   ToolBadgeComponent — Single, consistent tool badge style.
+   Used everywhere: SettingsPanel stats, MessageList tool activity,
+   HistoryItem capability badges, ModelPickerPopover, etc.
+   ═══════════════════════════════════════════════════════════════ */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  white-space: nowrap;
+  line-height: 1;
+  text-transform: none;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s,
+    box-shadow 0.2s;
+}
+
+.badge:hover {
+  border-color: color-mix(in oklch, var(--accent-primary) 40%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 6%,
+    var(--background-elevated)
+  );
+}
+
+.badge svg {
+  flex-shrink: 0;
+}
+
+/* ── Label text ── */
+.label {
+  opacity: 0.85;
+  transition: opacity 0.2s;
+}
+
+.badge:hover .label {
+  opacity: 1;
+}
+
+/* ── Active state (currently executing) ── */
+.badge-is-active-state {
+  border-color: var(--accent-primary);
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 8%,
+    var(--background-elevated)
+  );
+  box-shadow: 0 0 6px -1px
+    color-mix(in oklch, var(--accent-primary) 40%, transparent);
+}
+
+.badge-is-active-state svg {
+  animation: tool-badge-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes tool-badge-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ── Usage count ── */
+.count {
+  font-size: 0.5625rem;
+  font-weight: 600;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.2s;
+}
+
+.badge:hover .count {
+  opacity: 1;
+}
+
+/* ── Container for a row of badges ── */
+.badge-layout-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}

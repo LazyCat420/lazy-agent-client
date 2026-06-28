@@ -1,0 +1,81 @@
+/* ── ModelBadgeComponent ─────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: var(--text-secondary);
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+
+.badge:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  color: var(--text-primary);
+}
+
+.badge svg {
+  flex-shrink: 0;
+}
+
+.model-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.model-name-clean {
+  display: inline;
+}
+
+.model-name-raw {
+  display: none;
+}
+
+.badge:hover .model-name-clean {
+  display: none;
+}
+
+.badge:hover .model-name-raw {
+  display: inline;
+  animation: fade-in 0.15s ease-out forwards;
+}
+
+.no-hover:hover .model-name-clean {
+  display: inline !important;
+}
+
+.no-hover:hover .model-name-raw {
+  display: none !important;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ── Mini ─────────────────────────────────────────── */
+
+.mini {
+  font-size: 0.4375rem;
+  padding: 1px 4px;
+  gap: 2px;
+}
+
+.mini .model-name {
+  max-width: 120px;
+}

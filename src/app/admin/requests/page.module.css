@@ -1,0 +1,152 @@
+.page {
+  animation: fade-in var(--transition-normal) ease-out;
+}
+
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-block-end: 16px;
+  padding: 14px 18px;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-md);
+}
+
+.filter-layout-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+
+  /* Override library SelectComponent inline-label layout:
+     stack label above trigger instead of side-by-side */
+  & > [class*="hasLabel"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-inline-start: auto;
+  align-self: flex-end;
+}
+
+@media (max-width: 1024px) {
+  .filter-layout-row {
+    flex-direction: column;
+    align-items: stretch;
+
+    & > * {
+      width: 100%;
+    }
+  }
+
+  .filter-actions {
+    align-self: stretch;
+    margin-inline-start: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .filter-bar {
+    padding: 10px 12px;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    & > * {
+      width: 100%;
+    }
+  }
+}
+
+.filter-label-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1;
+  min-width: 140px;
+
+  & input {
+    width: 100%;
+  }
+}
+
+.filter-label-text {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* Table */
+.table-wrapper {
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+}
+
+/* Shared conversation row highlighting */
+.shared-conversation-layout-row td {
+  background: oklch(58.5% 0.2041 277.1 / 0.06) !important;
+}
+
+.shared-conversation-layout-row td:first-child {
+  background: oklch(58.5% 0.2041 277.1 / 0.1) !important;
+  box-shadow: inset 2px 0 0 var(--accent-primary) !important;
+}
+
+
+/* ── "Just now" row highlight ──────────────────────── */
+
+.new-layout-row td {
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 8%,
+    transparent
+  ) !important;
+}
+
+.new-layout-row td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent-primary) !important;
+}
+
+/* Fade-out when row ages past "just now" */
+.new-layout-row-fade-out td {
+  animation: new-row-fade 1s ease-out forwards;
+}
+
+.new-layout-row-fade-out td:first-child {
+  animation:
+    new-row-fade 1s ease-out forwards,
+    new-row-border-fade 1s ease-out forwards;
+}
+
+@keyframes new-row-fade {
+  0% {
+    background: color-mix(in oklch, var(--accent-primary) 8%, transparent);
+  }
+  100% {
+    background: transparent;
+  }
+}
+
+@keyframes new-row-border-fade {
+  0% {
+    box-shadow: inset 3px 0 0 var(--accent-primary);
+  }
+  100% {
+    box-shadow: inset 3px 0 0 transparent;
+  }
+}

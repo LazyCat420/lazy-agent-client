@@ -1,0 +1,96 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--background-base);
+}
+
+@media (max-width: 767px) {
+  .container {
+    inline-size: 100%;
+    min-inline-size: 100%;
+  }
+}
+
+.new-button {
+  margin: 12px;
+  width: calc(100% - 24px);
+  height: var(--button-height);
+  min-height: var(--button-height);
+  flex-shrink: 0;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 12px var(--calculated-accent-primary-glow);
+  transition: filter 0.4s ease-out;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+}
+
+/* Transient rainbow — applied on click, removed after ~1s */
+.new-button-element-rainbow {
+  filter: hue-rotate(0deg);
+  animation: new-btn-hue 1s linear forwards;
+  will-change: filter;
+}
+
+/* Glitch text scramble — chaotic distortion during rainbow flash */
+.new-button-element-glitch {
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: oklch(86.1% 0.1325 326.6) !important;
+  background: oklch(29.2% 0.133 310.5) !important;
+  border-color: oklch(70.2% 0.3225 328.4) !important;
+  animation:
+    glitch-hue-button 0.15s linear infinite,
+    glitch-jitter-button 0.05s steps(2) infinite;
+  will-change: filter, transform, text-shadow;
+  text-shadow:
+    1px 0 0 oklch(64.8% 0.2376 27.0),
+    -1px 0 0 oklch(90.9% 0.1481 194.9);
+  overflow: hidden;
+}
+
+@keyframes new-btn-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+@keyframes glitch-hue-button {
+  0% {
+    filter: hue-rotate(0deg) brightness(1.2);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.6);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(0.8);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.4);
+  }
+  100% {
+    filter: hue-rotate(360deg) brightness(1.2);
+  }
+}
+
+@keyframes glitch-jitter-button {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-1px, 1px) scale(1.03);
+  }
+  50% {
+    transform: translate(1px, -1px) scale(0.97);
+  }
+  75% {
+    transform: translate(1px, 0) scale(1.01);
+  }
+  100% {
+    transform: translate(-1px, 0) scale(0.99);
+  }
+}

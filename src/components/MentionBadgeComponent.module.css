@@ -1,0 +1,204 @@
+/* ── Unified Mention Badge ─────────────────────────────────────
+ * Shared styles for @file/@directory mention badges used in both
+ * the contentEditable input (ChatArea) and the message list
+ * (MessageList). Tooltip, hover, and stale states live here.
+ * ─────────────────────────────────────────────────────────────── */
+
+.mention-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px 1px 5px;
+  margin: 0 1px;
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 10%,
+    var(--background-elevated)
+  );
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--accent-primary) 25%,
+      var(--calculated-border-color)
+    );
+  border-radius: var(--radius-full, 999px);
+  font-size: var(--font-size-sm);
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  color: var(--accent-primary);
+  font-weight: 500;
+  white-space: nowrap;
+  vertical-align: baseline;
+  cursor: default;
+  line-height: 1.6;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    opacity 0.2s,
+    filter 0.2s;
+}
+
+.mention-badge:hover {
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 16%,
+    var(--background-elevated)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--accent-primary) 40%,
+    var(--calculated-border-color)
+  );
+}
+
+/* ── Tooltip (full path on hover) ────────────────────────────── */
+
+.mention-badge::after {
+  content: attr(data-mention-path);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  padding: 4px 10px;
+  background: var(--background-base);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 4px 16px oklch(0.0% 0.0 0.0 / 0.25);
+  font-size: var(--font-size-xs);
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  color: var(--text-primary);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+  z-index: 200;
+}
+
+.mention-badge:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Inside contentEditable inputs, overflow-y:auto clips the ::after tooltip.
+   These badges have contenteditable="false" and use native `title` instead. */
+.mention-badge[contenteditable="false"]::after {
+  display: none;
+}
+
+/* ── Clickable state (file badges that open in viewer) ──────── */
+
+.mention-badge-clickable {
+  cursor: pointer;
+}
+
+.mention-badge-clickable:hover {
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 22%,
+    var(--background-elevated)
+  );
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 1px
+    color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
+
+.mention-badge-clickable:active {
+  transform: scale(0.97);
+}
+
+/* ── Stale state (file/directory no longer exists) ───────────── */
+
+.mention-badge-stale {
+  opacity: 0.45;
+  filter: grayscale(1);
+  border-style: dashed;
+  color: var(--text-muted);
+  background: color-mix(
+    in srgb,
+    var(--text-muted) 6%,
+    var(--background-elevated)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--text-muted) 20%,
+    var(--calculated-border-color)
+  );
+}
+
+.mention-badge-stale:hover {
+  opacity: 0.6;
+  background: color-mix(
+    in srgb,
+    var(--text-muted) 10%,
+    var(--background-elevated)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--text-muted) 30%,
+    var(--calculated-border-color)
+  );
+}
+
+/* Tooltip suffix for stale badges */
+.mention-badge-stale::after {
+  content: attr(data-mention-path) " (deleted)";
+  color: var(--text-muted);
+}
+
+/* ── Mention Icon ────────────────────────────────────────────── */
+
+.mention-icon {
+  font-size: var(--font-size-xs);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ── Slash Command Badge (inline rule activation) ────────────── */
+
+.slash-command-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 7px 1px 5px;
+  margin: 0 1px;
+  background: color-mix(
+    in srgb,
+    var(--color-amber) 10%,
+    var(--background-elevated)
+  );
+  border: 1px solid
+    color-mix(
+      in srgb,
+      var(--color-amber) 25%,
+      var(--calculated-border-color)
+    );
+  border-radius: var(--radius-full, 999px);
+  font-size: var(--font-size-sm);
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  color: var(--color-amber);
+  font-weight: 500;
+  white-space: nowrap;
+  vertical-align: baseline;
+  cursor: default;
+  line-height: 1.6;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    opacity 0.2s;
+}
+
+.slash-command-badge:hover {
+  background: color-mix(
+    in srgb,
+    var(--color-amber) 16%,
+    var(--background-elevated)
+  );
+  border-color: color-mix(
+    in srgb,
+    var(--color-amber) 40%,
+    var(--calculated-border-color)
+  );
+}

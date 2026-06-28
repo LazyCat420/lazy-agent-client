@@ -1,0 +1,169 @@
+/* ── CycleButton ──────────────────────────────────────────────
+   A compact clickable pill that cycles through a list of values
+   on each click. Features a number-tween counting animation
+   and a large ∞ glyph for infinity state.
+   ──────────────────────────────────────────────────────────── */
+
+.cycle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 20px;
+  padding: 0 8px;
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--button-border-radius);
+  background: var(--calculated-select-background-color);
+  color: var(--text-secondary);
+  font-size: 0.625rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.1s,
+    border-color 0.1s,
+    color 0.1s,
+    transform 0.1s;
+  flex-shrink: 0;
+}
+
+.cycle-button:hover {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: var(--calculated-accent-primary-glow);
+}
+
+.cycle-button:active {
+  transform: scale(0.94);
+}
+
+/* Highlighted state — when value differs from the default */
+.cycle-button-is-active-state {
+  background: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--color-white);
+  filter: hue-rotate(0deg);
+  animation: cycle-hue 4s linear infinite;
+  will-change: filter;
+}
+
+@keyframes cycle-hue {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.cycle-button-is-active-state:hover {
+  background: var(--calculated-accent-primary-hover);
+  border-color: var(--calculated-accent-primary-hover);
+  color: var(--color-white);
+}
+
+/* ── Infinity glyph — big, bold, expressive ────────────── */
+.infinity {
+  font-size: 24px;
+  font-weight: 700;
+  min-width: 38px;
+  line-height: 0.5;
+  letter-spacing: 0;
+}
+
+/* ── Rainbow tween while counting ──────────────────────── */
+.tweening {
+  color: oklch(66.8% 0.1972 24.2);
+  filter: hue-rotate(0deg);
+  animation: cycle-count-rainbow 0.5s linear;
+  will-change: filter;
+}
+
+/* Override the slow hue cycle during active tweening */
+.cycle-button-is-active-state.tweening {
+  animation: cycle-count-rainbow 0.5s linear;
+}
+
+@keyframes cycle-count-rainbow {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* ── Glitch / scramble phase — chaotic distortion ──────── */
+.glitching {
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: oklch(75.6% 0.2525 327.7);
+  animation:
+    glitch-hue 0.15s linear infinite,
+    glitch-jitter 0.05s steps(2) infinite;
+  will-change: filter, transform, text-shadow;
+  text-shadow:
+    1px 0 0 oklch(64.8% 0.2376 27.0),
+    -1px 0 0 oklch(90.9% 0.1481 194.9);
+  overflow: hidden;
+}
+
+/* Override active colors during glitch */
+.cycle-button-is-active-state.glitching {
+  animation:
+    glitch-hue 0.15s linear infinite,
+    glitch-jitter 0.05s steps(2) infinite;
+  color: oklch(86.1% 0.1325 326.6);
+  background: oklch(29.2% 0.133 310.5);
+  border-color: oklch(70.2% 0.3225 328.4);
+}
+
+@keyframes glitch-hue {
+  0% {
+    filter: hue-rotate(0deg) brightness(1.2);
+  }
+  25% {
+    filter: hue-rotate(90deg) brightness(1.6);
+  }
+  50% {
+    filter: hue-rotate(180deg) brightness(0.8);
+  }
+  75% {
+    filter: hue-rotate(270deg) brightness(1.4);
+  }
+  100% {
+    filter: hue-rotate(360deg) brightness(1.2);
+  }
+}
+
+@keyframes glitch-jitter {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(-1px, 1px) scale(1.05);
+  }
+  50% {
+    transform: translate(1px, -1px) scale(0.95);
+  }
+  75% {
+    transform: translate(1px, 0) scale(1.02);
+  }
+  100% {
+    transform: translate(-1px, 0) scale(0.98);
+  }
+}
+
+/* ── Disabled / locked state ───────────────────────────── */
+.is-disabled-state {
+  opacity: 0.45;
+  pointer-events: none;
+  cursor: not-allowed;
+  animation: none;
+  filter: none;
+}
+
+.is-disabled-state.cycle-button-is-active-state {
+  animation: none;
+  filter: grayscale(0.6);
+}

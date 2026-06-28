@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════════════════════
+   ChatConversationGraphComponent — Embeddable graph canvas for chat view
+   ═══════════════════════════════════════════════════════════════════ */
+
+.graph-embed-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Canvas area fills remaining height ──────────────────────── */
+
+.graph-embed-canvas-area {
+  flex: 1;
+  min-height: 0;
+}
+
+
+/* ── Spawn Ripple — animated ring when sub-agent appears ──────── */
+
+@keyframes spawn-ripple-animation {
+  0% {
+    opacity: 0.5;
+    stroke-width: 2;
+  }
+  100% {
+    opacity: 0;
+    stroke-width: 0.5;
+  }
+}
+
+.spawn-ripple-circle {
+  fill: none;
+  pointer-events: none;
+  animation: spawn-ripple-animation 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Collapsed Sub-Tree Badge ─────────────────────────────────── */
+
+.collapsed-subtree-badge-group {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.collapsed-subtree-badge-group:hover {
+  opacity: 0.85;
+}
+
+/* ── Depth Label (small text under nested agents) ────────────── */
+
+.depth-label-text {
+  pointer-events: none;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Phase Activity Pulse — animated ring synced to status bar phase ── */
+
+@keyframes phase-activity-pulse-animation {
+  0%, 100% {
+    opacity: 0.6;
+    stroke-width: 2;
+  }
+  50% {
+    opacity: 0.2;
+    stroke-width: 1;
+  }
+}
+
+.phase-activity-pulse-ring {
+  pointer-events: none;
+  animation: phase-activity-pulse-animation 2s ease-in-out infinite;
+}
+
+/* ── Node Activity Pulse — animated ring on active request/model nodes ── */
+
+@keyframes node-activity-pulse-animation {
+  0%, 100% {
+    opacity: 0.7;
+    stroke-width: 2.5;
+  }
+  50% {
+    opacity: 0.15;
+    stroke-width: 1;
+  }
+}
+
+.node-activity-pulse-ring {
+  pointer-events: none;
+  animation: node-activity-pulse-animation 1.4s ease-in-out infinite;
+}
+
+/* ── Tool Activity Pulse — faster, more energetic glow for tool execution ── */
+
+@keyframes node-tool-activity-pulse-animation {
+  0%, 100% {
+    opacity: 0.8;
+    stroke-width: 3;
+  }
+  40% {
+    opacity: 0.1;
+    stroke-width: 0.8;
+  }
+  70% {
+    opacity: 0.5;
+    stroke-width: 2;
+  }
+}
+
+.node-tool-activity-pulse-ring {
+  pointer-events: none;
+  animation: node-tool-activity-pulse-animation 0.9s ease-in-out infinite;
+}
+
+/* ── Pending Request Pulse — breathing shimmer for in-flight requests ── */
+
+@keyframes pending-request-pulse-animation {
+  0%, 100% {
+    opacity: 0.7;
+    stroke-width: 2.5;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.2;
+    stroke-width: 1.5;
+    stroke-dashoffset: 12;
+  }
+}
+
+.pending-request-pulse-ring {
+  pointer-events: none;
+  stroke-dasharray: 6 4;
+  animation: pending-request-pulse-animation 1.6s ease-in-out infinite;
+}

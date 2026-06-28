@@ -1,0 +1,561 @@
+/* ── FileViewerPanel — VS Code-style read-only file pane ──── */
+/* Always renders in a forced dark palette regardless of the active theme.
+   The titleBar is the only child that inherits the theme's accent color. */
+
+.container {
+  /* ── Forced dark-mode token overrides ─────────────────── */
+  --background-base: oklch(14.7% 0.0107 285.0);
+  --background-surface: oklch(19.4% 0.0162 279.2);
+  --background-elevated: oklch(22.6% 0.0214 280.5);
+  --calculated-border-color: oklch(100.0% 0.0001 263.3 / 0.06);
+  --calculated-border-subtle: oklch(100.0% 0.0001 263.3 / 0.03);
+  --calculated-border-medium: oklch(100.0% 0.0001 263.3 / 0.1);
+  --text-primary: oklch(97.9% 0.0001 263.3);
+  --text-secondary: oklch(67.3% 0.0379 273.0);
+  --text-tertiary: oklch(55.7% 0.0444 273.9);
+  --text-muted: oklch(49.3% 0.0392 273.9);
+  --color-white: oklch(100.0% 0.0001 263.3);
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--background-base);
+  border-right: 1px solid var(--calculated-border-color);
+  overflow: hidden;
+  /* Layout-based width transitions for open/close (not GPU-composited,
+     but acceptable for an infrequent user-toggled panel) */
+  transition:
+    width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    min-width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+  opacity: 1;
+}
+
+.container-collapsed {
+  width: 0 !important;
+  min-width: 0 !important;
+  opacity: 0;
+  border-width: 0 !important;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: width, min-width, opacity;
+}
+
+/* ── Title bar — VSCode-style header (accent background) ── */
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  min-height: 30px;
+  padding: 0 6px 0 10px;
+  background: var(--accent-primary);
+  flex-shrink: 0;
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+.title-bar-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: oklch(100.0% 0.0001 263.3 / 0.85);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.title-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  -webkit-app-region: no-drag;
+}
+
+.title-bar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 22px;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: oklch(100.0% 0.0001 263.3 / 0.75);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+
+.title-bar-button:hover {
+  background: oklch(100.0% 0.0001 263.3 / 0.15);
+  color: var(--color-white);
+}
+
+.title-bar-button:active {
+  background: oklch(100.0% 0.0001 263.3 / 0.22);
+}
+
+.title-bar-button-element-is-active-state {
+  background: oklch(100.0% 0.0001 263.3 / 0.12);
+  color: var(--color-white);
+}
+
+.title-bar-button-element-is-active-state:hover {
+  background: oklch(100.0% 0.0001 263.3 / 0.22);
+}
+
+/* ── Tab bar ─────────────────────────────────────────────── */
+
+.tab-bar {
+  display: flex;
+  align-items: stretch;
+  height: 34px;
+  min-height: 34px;
+  background: var(--background-elevated);
+  border-bottom: 1px solid var(--calculated-border-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  flex-shrink: 0;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 10px;
+  height: 100%;
+  border: none;
+  border-right: 1px solid var(--calculated-border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  flex-shrink: 0;
+  max-width: 180px;
+  min-width: 0;
+
+  &:hover {
+    background: var(--background-elevated);
+    color: var(--text-secondary);
+  }
+
+  &:hover .tab-close {
+    opacity: 1;
+  }
+}
+
+.tab-is-active-state {
+  background: var(--background-base);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--accent-primary);
+  font-weight: 500;
+}
+
+.tab-icon {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.tab-is-active-state .tab-icon {
+  opacity: 1;
+}
+
+.tab-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tab-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 3px;
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  opacity: 0;
+  padding: 0;
+  transition:
+    opacity 0.15s,
+    color 0.15s,
+    background 0.15s;
+
+  &:hover {
+    color: var(--color-white);
+    background: oklch(100.0% 0.0001 263.3 / 0.12);
+  }
+}
+
+.tab-is-active-state .tab-close {
+  opacity: 0.6;
+}
+
+/* ── File content area ───────────────────────────────────── */
+
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: var(--background-base);
+}
+
+/* ── Breadcrumb path bar ─────────────────────────────────── */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  font-size: 0.625rem;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  color: var(--text-tertiary, var(--text-muted));
+  border-bottom: 1px solid var(--calculated-border-subtle);
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-height: 24px;
+  background: var(--background-base);
+}
+
+.breadcrumb-sep {
+  opacity: 0.4;
+}
+
+/* ── Code scroll container ───────────────────────────────── */
+
+.code-scroll {
+  flex: 1;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--calculated-border-medium) transparent;
+  background: var(--background-base);
+}
+
+/* Override react-syntax-highlighter's internal pre/code styles */
+.code-scroll pre {
+  background: var(--background-base) !important;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* No-wrap mode: horizontal scrolling instead of line wrapping */
+.code-scroll-no-wrap pre {
+  word-wrap: normal;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ── Loading & empty states ──────────────────────────────── */
+
+.is-loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary, var(--text-muted));
+  gap: 8px;
+}
+
+/* Spinner is rendered via PanelLoadingSpinnerComponent */
+
+
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  padding: 24px;
+  text-align: center;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+}
+
+/* ── File meta badge (line count, language) ───────────────── */
+
+.meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 12px;
+  border-top: 1px solid var(--calculated-border-subtle);
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  background: var(--background-base);
+  min-height: 22px;
+}
+
+.meta-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+
+/* ── Resize handle ───────────────────────────────────────── */
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  width: 5px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 5;
+  background: transparent;
+  transition: background 0.15s;
+
+  &:hover,
+  &:active {
+    background: var(--accent-primary);
+    opacity: 0.5;
+  }
+}
+
+/* ── Code line with hover effects (CSS-only, no React state) ─ */
+
+.code-line {
+  position: relative;
+  transition: background-color 0.08s;
+}
+
+.code-line:hover {
+  background-color: oklch(100.0% 0.0001 263.3 / 0.03) !important;
+}
+
+/* Brighten line numbers on hover */
+.code-line:hover .react-syntax-highlighter-line-number {
+  color: oklch(100.0% 0.0001 263.3 / 0.5) !important;
+}
+
+/* ── Selected line state ─────────────────────────────────── */
+
+.code-line-selected {
+  background-color: oklch(58.5% 0.2041 277.1 / 0.12) !important;
+}
+
+.code-line-selected .react-syntax-highlighter-line-number {
+  color: var(--accent-primary) !important;
+}
+
+/* ── Inline @ mention button (injected into every line, shown on hover) ─ */
+
+.line-mention-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%) scale(0.92);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid color-mix(in oklch, var(--accent-primary) 40%, transparent);
+  border-radius: 4px;
+  background: color-mix(
+    in srgb,
+    var(--accent-primary) 14%,
+    var(--background-elevated)
+  );
+  color: var(--accent-primary);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  transition:
+    opacity 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.15s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.12s,
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+
+/* Reveal on line hover — CSS-only, zero React re-renders */
+.code-line:hover .line-mention-button {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-50%) scale(1);
+}
+
+.line-mention-button:hover {
+  background: var(--accent-primary);
+  color: var(--color-white);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 2px
+    color-mix(in oklch, var(--accent-primary) 25%, transparent);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.line-mention-button:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* ── Mobile ──────────────────────────────────────────────── */
+
+/* ── Media viewer (binary files: images, audio, video, PDF) ─ */
+
+.media-viewer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: auto;
+  background: var(--background-base);
+  scrollbar-width: thin;
+  scrollbar-color: var(--calculated-border-medium) transparent;
+}
+
+/* ── Image preview ──────────────────────────────────────── */
+
+.media-image-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.media-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  user-select: none;
+  image-rendering: auto;
+  /* Checkerboard background for transparent images */
+  background-image:
+    linear-gradient(45deg, var(--background-elevated) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--background-elevated) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--background-elevated) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--background-elevated) 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-color: var(--background-surface);
+}
+
+/* ── Audio player ───────────────────────────────────────── */
+
+.media-audio-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 32px 24px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.media-audio-icon {
+  color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* ── Video player ───────────────────────────────────────── */
+
+.media-video-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.media-video {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 4px;
+  outline: none;
+  background: var(--background-base);
+}
+
+/* ── PDF viewer ─────────────────────────────────────────── */
+
+.media-pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: var(--background-base);
+}
+
+/* ── SVG preview ───────────────────────────────────────── */
+
+.media-svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+  user-select: none;
+  /* Checkerboard background for transparent SVGs */
+  background-image:
+    linear-gradient(45deg, var(--background-elevated) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--background-elevated) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--background-elevated) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--background-elevated) 75%);
+  background-size: 16px 16px;
+  background-position:
+    0 0,
+    0 8px,
+    8px -8px,
+    -8px 0;
+  background-color: var(--background-surface);
+  padding: 24px;
+}
+
+@media (max-width: 1200px) {
+  .container {
+    display: none;
+  }
+}

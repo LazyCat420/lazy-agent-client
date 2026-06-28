@@ -1,0 +1,155 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 6px;
+  padding: 4px;
+}
+
+.compact {
+  padding: 2px;
+  gap: 4px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.option-grid {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.option-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--calculated-border-subtle, oklch(100.0% 0.0001 263.3 / 0.08));
+  border-radius: 4px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  padding: 6px 10px;
+  font-size: 0.625rem;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--background-elevated);
+    border-color: var(--calculated-border-color);
+  }
+}
+
+.compact .option-button {
+  padding: 5px;
+  flex: 0 0 auto;
+}
+
+.drop-zone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  border: 1px dashed var(--calculated-border-subtle, oklch(100.0% 0.0001 263.3 / 0.08));
+  border-radius: 4px;
+  color: var(--text-muted, oklch(51.0% 0.0 263.3));
+  font-size: 0.625rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  padding: 4px;
+
+  &:hover {
+    color: var(--text-secondary);
+    border-color: var(--calculated-border-color);
+    background: oklch(100.0% 0.0001 263.3 / 0.02);
+  }
+}
+
+/* ── Webcam ── */
+.webcam-preview {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 4px;
+}
+
+.webcam-video {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  object-fit: cover;
+  border-radius: 4px;
+  background: oklch(0.0% 0.0 0.0);
+  transform: scaleX(-1);
+}
+
+.webcam-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+.capture-button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-danger);
+  border: 3px solid oklch(100.0% 0.0001 263.3);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--color-danger-strong);
+    transform: scale(1.1);
+  }
+}
+
+.cancel-button {
+  background: transparent;
+  border: 1px solid var(--calculated-border-subtle);
+  border-radius: 4px;
+  color: var(--text-secondary);
+  font-size: 0.625rem;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+
+  &:hover {
+    color: var(--text-primary);
+    background: var(--background-elevated);
+  }
+}
+
+/* ── Audio recording ── */
+.audio-rec-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+}

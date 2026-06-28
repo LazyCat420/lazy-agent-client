@@ -1,0 +1,272 @@
+.provider-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.provider-card {
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+
+  &:hover {
+    border-color: var(--accent-primary);
+  }
+}
+
+.provider-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.provider-name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.provider-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.model-count {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.rate-limit-badge {
+  font-size: 0.625rem;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--background-elevated);
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+
+.provider-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.share-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--background-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.share-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.model-list {
+  padding: 0 20px 16px;
+}
+
+/* ── Rate Limit Panel ─────────────────────────────────────── */
+
+.rate-limit-panel {
+  padding: 0 20px 16px;
+  animation: fade-in 0.2s ease;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rate-limit-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--calculated-border-subtle);
+}
+
+.rate-limit-title {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.rate-limit-meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Container for all model cards in a provider */
+.rate-limit-models {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 10px;
+}
+
+/* Per-model card */
+.rate-limit-model-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--background-elevated);
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--calculated-border-subtle);
+}
+
+.rate-limit-model-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.rate-limit-model-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rate-limit-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Static metric (Google) */
+.rate-limit-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.rate-limit-metric-value {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.rate-limit-metric-label {
+  font-size: 0.5625rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* For static metrics, display inline */
+.rate-limit-model-card:not(:has(.limit-bar)) .rate-limit-metrics {
+  flex-direction: row;
+  gap: 14px;
+}
+
+/* ── Dynamic Limit Bar ──────────────────────────────────────── */
+
+.limit-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.limit-bar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.limit-bar-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.limit-bar-values {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-bar-track {
+  width: 100%;
+  height: 5px;
+  background: var(--calculated-border-subtle);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transform-origin: left;
+  transition:
+    transform 0.4s ease,
+    background 0.4s ease;
+  min-width: 2px;
+}
+
+.rate-limit-reset {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+@media (max-width: 767px) {
+  .provider-stats {
+    gap: 14px;
+  }
+
+  .rate-limit-models {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,292 @@
+/* ── Shared TableComponent Styles ──────────────────────── */
+
+/* Empty / null value placeholder — replaces all inline style={{ color: "var(--text-muted)" }}
+
+*/
+.empty-dash {
+  color: var(--text-muted);
+}
+
+/* ── CountLink (Conversations / Workflows) ── */
+
+.count-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.15s ease;
+
+  & svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    color: var(--accent-primary);
+  }
+
+  &:hover svg {
+    opacity: 0.8;
+  }
+}
+
+.count-link-zero {
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline stat cell (requests, conversations count, etc.) */
+.count-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-variant-numeric: tabular-nums;
+
+  & svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+}
+
+/* ── Conversation ID cell ─────────────────────────────────── */
+
+.conversation-id-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.15s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+
+  &:hover .conversation-id-text {
+    color: var(--accent-primary);
+  }
+}
+
+.conversation-icon {
+  flex-shrink: 0;
+  color: var(--accent-primary);
+  opacity: 0.7;
+}
+
+.conversation-id-text {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  letter-spacing: 0.3px;
+}
+
+/* ── Conversation title cell ─────────────────────────── */
+
+.conversation-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  & svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+}
+
+.conversation-title-mini {
+  gap: 4px;
+}
+
+/* ── Benchmark result cells ──────────────────────────── */
+
+.benchmark-status-cell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.benchmark-pass-icon {
+  color: var(--color-success);
+}
+
+.benchmark-fail-icon {
+  color: var(--color-danger);
+}
+
+.benchmark-error-icon {
+  color: var(--color-warning);
+}
+
+.benchmark-running-icon {
+  color: var(--accent-primary);
+  animation: benchmark-spin 1s linear infinite;
+}
+
+.benchmark-pending-icon {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+
+.benchmark-model-pending {
+  opacity: 0.45;
+}
+
+@keyframes benchmark-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.benchmark-progress-pct {
+  font-size: 0.625rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-success);
+  background: color-mix(in oklch, var(--color-success) 10%, transparent);
+  padding: 1px 5px;
+  border-radius: 2px;
+  margin-left: 4px;
+}
+
+.benchmark-model-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Keep provider + progress badge on a single row */
+.benchmark-model-provider-layout-row {
+  display: flex;
+  align-items: center;
+}
+
+.benchmark-model-name {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.benchmark-model-provider {
+  font-size: var(--font-size-xs);
+  color: var(--text-tertiary);
+}
+
+.benchmark-response-cell {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.benchmark-error-message {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+  font-style: italic;
+}
+
+.benchmark-tps-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+
+  & svg {
+    opacity: 0.5;
+    flex-shrink: 0;
+    color: var(--accent-primary);
+  }
+}
+
+.mono-cell {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
+  color: var(--text-tertiary);
+}
+
+/* Highlighted expected-value match inside response text */
+.benchmark-highlight {
+  background: color-mix(in oklch, var(--color-success) 20%, transparent);
+  color: var(--color-success);
+  border-radius: 2px;
+  padding: 1px 2px;
+  font-weight: 600;
+}
+
+/* ── Benchmark Dashboard cells ──────────────────────────── */
+
+.dashboard-model-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-model-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashboard-passed-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-success);
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.dashboard-failed-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--color-danger);
+
+  & svg {
+    flex-shrink: 0;
+  }
+}
+
+.dashboard-rate-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard-rate-bar {
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--background-elevated);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.dashboard-rate-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transform-origin: left;
+  transition: transform 0.3s ease-out;
+}
+
+.dashboard-rate-value {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  min-width: 28px;
+}

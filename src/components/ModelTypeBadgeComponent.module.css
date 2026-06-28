@@ -1,0 +1,67 @@
+/* ── ModelTypeBadgeComponent ──────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+  text-transform: capitalize;
+}
+
+.badge svg {
+  flex-shrink: 0;
+}
+
+/* ── Conversation ─────────────────────────────────── */
+
+.conversation {
+  color: var(--color-indigo);
+  background: oklch(58.5% 0.2041 277.1 / 0.08);
+  border-color: oklch(58.5% 0.2041 277.1 / 0.2);
+}
+.conversation:hover {
+  border-color: oklch(58.5% 0.2041 277.1 / 0.45);
+  background: oklch(58.5% 0.2041 277.1 / 0.12);
+}
+
+/* ── Audio ────────────────────────────────────────── */
+
+.audio {
+  color: var(--color-warning);
+  background: oklch(76.9% 0.1646 70.1 / 0.08);
+  border-color: oklch(76.9% 0.1646 70.1 / 0.2);
+}
+.audio:hover {
+  border-color: oklch(76.9% 0.1646 70.1 / 0.45);
+  background: oklch(76.9% 0.1646 70.1 / 0.12);
+}
+
+/* ── Embed ────────────────────────────────────────── */
+
+.embed {
+  color: var(--color-emerald);
+  background: oklch(69.6% 0.1491 162.5 / 0.08);
+  border-color: oklch(69.6% 0.1491 162.5 / 0.2);
+}
+.embed:hover {
+  border-color: oklch(69.6% 0.1491 162.5 / 0.45);
+  background: oklch(69.6% 0.1491 162.5 / 0.12);
+}
+
+/* ── Mini ─────────────────────────────────────────── */
+
+.mini {
+  font-size: 0.4375rem;
+  padding: 1px 4px;
+  gap: 2px;
+}

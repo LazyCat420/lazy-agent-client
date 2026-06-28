@@ -1,0 +1,259 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px 40px;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.page {
+  animation: fade-in var(--transition-normal) ease-out;
+}
+
+.admin-page {
+  animation: fade-in var(--transition-normal) ease-out;
+}
+
+.search-input-container {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+
+/* ── Header ────────────────────────────────────────────────── */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  & .title-icon {
+    color: var(--accent-primary);
+    opacity: 0.8;
+  }
+}
+
+.subtitle {
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* ── Stats Badges ──────────────────────────────────────────── */
+
+.stats-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-sm);
+
+  & .stat-value {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Text List */
+.text-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.text-card {
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: var(--border-radius-md);
+  overflow: hidden;
+  transition: border-color var(--transition-fast);
+
+  &:hover {
+    border-color: var(--accent-primary);
+  }
+}
+
+.text-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--calculated-border-subtle);
+  flex-wrap: wrap;
+}
+
+.favorite-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  opacity: 0.25;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+    transform: scale(1.15);
+  }
+}
+
+.favorite-button-is-active-state {
+  color: var(--color-warning);
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.8;
+    transform: scale(1.15);
+  }
+}
+
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.role-user {
+  background: oklch(58.5% 0.2041 277.1 / 0.12);
+  color: var(--accent-primary);
+}
+
+.role-ai {
+  background: oklch(62.7% 0.2326 303.9 / 0.12);
+  color: var(--color-purple);
+}
+
+.conversation-link {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+  text-decoration: none;
+  overflow: hidden;
+  max-width: 200px;
+
+  & > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    color: var(--accent-primary);
+  }
+}
+
+.attachment-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  background: var(--background-elevated);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+.model-tag {
+  font-size: 0.625rem;
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: var(--background-elevated);
+  color: var(--text-muted);
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.time {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+/* ChatPreviewComponent inside card — remove its own border/radius so it
+   sits flush within the card container */
+.card-preview {
+  border: none !important;
+  border-radius: 0 !important;
+  max-height: 400px;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px 16px;
+    gap: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-box {
+    max-width: none;
+    width: 100%;
+  }
+
+  .view-toggle {
+    margin-left: 0;
+  }
+}

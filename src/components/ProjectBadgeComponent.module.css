@@ -1,0 +1,29 @@
+/* ── ProjectBadgeComponent ────────────────────────────── */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: oklch(0.712 0.1208 221.2);
+  background: oklch(71.5% 0.1258 215.2 / 0.08);
+  border: 1px solid oklch(71.5% 0.1258 215.2 / 0.2);
+  white-space: nowrap;
+  transition:
+    border-color 0.2s,
+    color 0.2s,
+    background 0.2s;
+}
+
+.badge:hover {
+  border-color: oklch(71.5% 0.1258 215.2 / 0.45);
+  background: oklch(71.5% 0.1258 215.2 / 0.12);
+}
+
+.badge svg {
+  flex-shrink: 0;
+}

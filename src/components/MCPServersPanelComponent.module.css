@@ -1,0 +1,341 @@
+/* ============================================================
+   MCP Servers Panel — Connection management for MCP protocol servers
+   Uses cyan (var(--color-cyan)) as accent to distinguish from tools/skills
+   ============================================================ */
+
+.container {
+  composes: container from "./PanelShared.module.css";
+  --panel-accent: var(--color-cyan);
+}
+
+
+/* ── Empty State ────────────────────────────────────────────── */
+
+.empty-state {
+  composes: empty-state from "./PanelShared.module.css";
+}
+
+.empty-icon {
+  composes: empty-icon from "./PanelShared.module.css";
+}
+
+.empty-title {
+  composes: empty-title from "./PanelShared.module.css";
+}
+
+.empty-subtitle {
+  composes: empty-subtitle from "./PanelShared.module.css";
+}
+
+/* ── Server Card ────────────────────────────────────────────── */
+
+.server-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--background-surface);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: color-mix(
+      in srgb,
+      var(--color-cyan) 30%,
+      var(--calculated-border-color)
+    );
+    box-shadow: 0 2px 8px color-mix(in oklch, var(--color-cyan) 8%, transparent);
+  }
+}
+
+.server-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--text-muted);
+  transition: all 0.3s ease;
+}
+
+.status-dot-connected {
+  background: var(--color-emerald);
+  box-shadow: 0 0 8px color-mix(in oklch, var(--color-emerald) 50%, transparent);
+  animation: status-pulse 2s ease-in-out infinite;
+}
+
+@keyframes status-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.server-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.server-name {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.server-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.transport-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 3px;
+  background: color-mix(in oklch, var(--text-muted) 10%, transparent);
+  color: var(--text-muted);
+}
+
+.tool-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 5px;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  border-radius: 3px;
+  background: color-mix(in oklch, var(--color-cyan) 10%, transparent);
+  color: var(--color-cyan);
+}
+
+.server-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.connect-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-emerald);
+  background: color-mix(in oklch, var(--color-emerald) 10%, transparent);
+  border: 1px solid color-mix(in oklch, var(--color-emerald) 25%, transparent);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: color-mix(in oklch, var(--color-emerald) 18%, transparent);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.disconnect-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  color: var(--color-warning);
+  background: color-mix(in oklch, var(--color-warning) 10%, transparent);
+  border: 1px solid color-mix(in oklch, var(--color-warning) 25%, transparent);
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    background: color-mix(in oklch, var(--color-warning) 18%, transparent);
+  }
+}
+
+
+/* ── Tool list ──────────────────────────────────────────────── */
+
+.tool-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-top: 4px;
+}
+
+.tool-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  font-size: 0.625rem;
+  color: var(--text-secondary);
+  background: color-mix(in oklch, var(--background-elevated) 80%, transparent);
+  border-radius: 4px;
+  font-family: var(--font-mono, "JetBrains Mono", monospace);
+}
+
+/* ── Confirm Delete ─────────────────────────────────────────── */
+
+.confirm-layout-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.confirm-label {
+  flex: 1;
+  font-size: var(--font-size-xs);
+  color: var(--color-rose);
+  font-weight: 500;
+}
+
+
+/* ── Add / Edit Form ────────────────────────────────────────── */
+
+.form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0 8px;
+  border-bottom: 1px solid var(--calculated-border-color);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+
+  h3 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+}
+
+.input {
+  padding: 7px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+  background: var(--background-elevated);
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease;
+
+  &:focus {
+    border-color: var(--color-cyan);
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--color-cyan) 15%, transparent);
+  }
+
+  &::placeholder {
+    color: var(--text-muted);
+  }
+}
+
+.hint {
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.transport-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--calculated-border-color);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.transport-tab {
+  flex: 1;
+  padding: 6px 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-right: 1px solid var(--calculated-border-color);
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &:hover {
+    color: var(--text-secondary);
+    background: color-mix(in oklch, var(--text-muted) 5%, transparent);
+  }
+}
+
+.transport-tab-is-active-state {
+  background: color-mix(in oklch, var(--color-cyan) 12%, transparent);
+  color: var(--color-cyan);
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--calculated-border-color);
+  flex-shrink: 0;
+}
+
+
+/* ── Error message ──────────────────────────────────────────── */
+
+.error-message {
+  font-size: var(--font-size-xs);
+  color: var(--color-rose);
+  padding: 6px 8px;
+  background: color-mix(in oklch, var(--color-rose) 8%, transparent);
+  border-radius: 4px;
+  border: 1px solid color-mix(in oklch, var(--color-rose) 15%, transparent);
+}
