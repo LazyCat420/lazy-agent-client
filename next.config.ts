@@ -11,7 +11,14 @@ import type { NextConfig } from "next";
 // ── Bootstrap secrets at build/dev time ────────────────────────
 const vault = createVaultClient();
 
-const secrets = vault.fetchSync();
+let secrets: Record<string, string> = {};
+try {
+  secrets = vault.fetchSync() || {};
+} catch (error: any) {
+  console.warn(
+    `⚠️ [Vault Connection Failed] Proceeding with local env variables. Error: ${error.message}`
+  );
+}
 
 // Inject only missing secrets into process.env to allow local env overrides
 for (const key in secrets) {
