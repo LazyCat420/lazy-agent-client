@@ -37,4 +37,10 @@ PRE_BUILD() {
   fi
 }
 
+EXTRA_SSH_SYNC() {
+  info "Syncing projects.json..."
+  cat "${SCRIPT_DIR}/projects.json" | ssh "$DEPLOY_SSH_HOST" "cat > '${DEPLOY_COMPOSE_DIR}/projects.json'"
+  ok "projects.json synced"
+}
+
 source "${SCRIPT_DIR}/../deploy-kit/lib.sh"

@@ -5,46 +5,18 @@
 // and injects them into process.env for the app.
 // ============================================================
 
-import { createVaultClient } from "@rodrigo-barraza/utilities-library/node";
 import type { NextConfig } from "next";
+import { bootstrapLocalEnvironment } from "./src/bootstrap.ts";
 
-// ── Bootstrap secrets at build/dev time ────────────────────────
-const vault = createVaultClient();
+// ── Bootstrap secrets locally from projects.json ────────────────
+bootstrapLocalEnvironment();
 
-let secrets: Record<string, string> = {};
-try {
-  secrets = vault.fetchSync() || {};
-} catch (error: any) {
-  console.warn(
-    `⚠️ [Vault Connection Failed] Proceeding with local env variables. Error: ${error.message}`
-  );
-}
-
-// Inject only missing secrets into process.env to allow local env overrides
-for (const key in secrets) {
-  if (process.env[key] === undefined) {
-    process.env[key] = secrets[key];
-  }
-}
-
-// Resolved tools-service URL for the rewrite proxy (server-side only).
-// Tools-service is internal (no public hostname) — the browser calls
-// /api/tools/* which Next.js rewrites to this destination.
 const TOOLS_SERVICE_URL =
   process.env.TOOLS_SERVICE_URL ||
-  secrets.TOOLS_SERVICE_URL ||
+  process.env.LAZY_TOOL_SERVICE_URL ||
   "http://localhost:1234";
 
-if (!TOOLS_SERVICE_URL) {
-  // throw new Error(
-  //   "TOOLS_SERVICE_URL is not set — Vault may be unreachable from the Docker build context. " +
-  //   "Ensure --network=host is set and the Vault service is running at " +
-  //   (secrets.VAULT_SERVICE_URL || process.env.VAULT_SERVICE_URL || "http://localhost:5599")
-  // );
-}
-
-// Resolved client domain for allowedDevOrigins (from vault).
-const PRISM_CLIENT_DOMAIN = secrets.PRISM_CLIENT_DOMAIN;
+const PRISM_CLIENT_DOMAIN = process.env.PRISM_CLIENT_DOMAIN;
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -70,32 +42,32 @@ const nextConfig: NextConfig = {
   // (e.g. public domain for prism-service, proxy path for tools-service).
   env: {
     // ── Sessions ──────────────────────────────────────────────
-    SESSIONS_SERVICE_URL: secrets.SESSIONS_SERVICE_URL,
-    SESSIONS_SERVICE_PUBLIC_URL: secrets.SESSIONS_SERVICE_PUBLIC_URL,
-    PRISM_CLIENT_PORT: secrets.PRISM_CLIENT_PORT,
+    SESSIONS_SERVICE_URL: process.env.SESSIONS_SERVICE_URL,
+    SESSIONS_SERVICE_PUBLIC_URL: process.env.SESSIONS_SERVICE_PUBLIC_URL,
+    PRISM_CLIENT_PORT: process.env.PRISM_CLIENT_PORT,
     PRISM_CLIENT_DOMAIN: PRISM_CLIENT_DOMAIN,
-    PRISM_SERVICE_URL: secrets.PRISM_SERVICE_URL,
-    PRISM_SERVICE_PUBLIC_URL: secrets.PRISM_SERVICE_PUBLIC_URL,
-    PRISM_WS_URL: secrets.PRISM_WS_URL,
-    PRISM_WS_PUBLIC_URL: secrets.PRISM_WS_PUBLIC_URL,
+    PRISM_SERVICE_URL: process.env.PRISM_SERVICE_URL,
+    PRISM_SERVICE_PUBLIC_URL: process.env.PRISM_SERVICE_PUBLIC_URL,
+    PRISM_WS_URL: process.env.PRISM_WS_URL,
+    PRISM_WS_PUBLIC_URL: process.env.PRISM_WS_PUBLIC_URL,
     TOOLS_SERVICE_URL: TOOLS_SERVICE_URL,
-    MINIO_PUBLIC_URL: secrets.MINIO_PUBLIC_URL,
-    PRISM_SERVICE_MINIO_BUCKET_NAME: secrets.PRISM_SERVICE_MINIO_BUCKET_NAME,
-    ACCOUNTS_SERVICE_URL: secrets.ACCOUNTS_SERVICE_URL,
-    CUSTOM_MODEL_NAME: process.env.CUSTOM_MODEL_NAME || secrets.CUSTOM_MODEL_NAME || "",
+    MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL,
+    PRISM_SERVICE_MINIO_BUCKET_NAME: process.env.PRISM_SERVICE_MINIO_BUCKET_NAME,
+    ACCOUNTS_SERVICE_URL: process.env.ACCOUNTS_SERVICE_URL,
+    CUSTOM_MODEL_NAME: process.env.CUSTOM_MODEL_NAME || "",
 
     // Explicit NEXT_PUBLIC_ variables for Turbopack client-side injection
     NEXT_PUBLIC_PRISM_CLIENT_DOMAIN: PRISM_CLIENT_DOMAIN,
-    NEXT_PUBLIC_PRISM_SERVICE_URL: secrets.PRISM_SERVICE_URL,
-    NEXT_PUBLIC_PRISM_SERVICE_PUBLIC_URL: secrets.PRISM_SERVICE_PUBLIC_URL,
-    NEXT_PUBLIC_PRISM_WS_URL: secrets.PRISM_WS_URL,
-    NEXT_PUBLIC_PRISM_WS_PUBLIC_URL: secrets.PRISM_WS_PUBLIC_URL,
+    NEXT_PUBLIC_PRISM_SERVICE_URL: process.env.PRISM_SERVICE_URL,
+    NEXT_PUBLIC_PRISM_SERVICE_PUBLIC_URL: process.env.PRISM_SERVICE_PUBLIC_URL,
+    NEXT_PUBLIC_PRISM_WS_URL: process.env.PRISM_WS_URL,
+    NEXT_PUBLIC_PRISM_WS_PUBLIC_URL: process.env.PRISM_WS_PUBLIC_URL,
     NEXT_PUBLIC_TOOLS_SERVICE_URL: TOOLS_SERVICE_URL,
-    NEXT_PUBLIC_MINIO_PUBLIC_URL: secrets.MINIO_PUBLIC_URL,
+    NEXT_PUBLIC_MINIO_PUBLIC_URL: process.env.MINIO_PUBLIC_URL,
     NEXT_PUBLIC_PRISM_SERVICE_MINIO_BUCKET_NAME:
-      secrets.PRISM_SERVICE_MINIO_BUCKET_NAME,
-    NEXT_PUBLIC_ACCOUNTS_SERVICE_URL: secrets.ACCOUNTS_SERVICE_URL,
-    NEXT_PUBLIC_CUSTOM_MODEL_NAME: process.env.CUSTOM_MODEL_NAME || secrets.CUSTOM_MODEL_NAME || "",
+      process.env.PRISM_SERVICE_MINIO_BUCKET_NAME,
+    NEXT_PUBLIC_ACCOUNTS_SERVICE_URL: process.env.ACCOUNTS_SERVICE_URL,
+    NEXT_PUBLIC_CUSTOM_MODEL_NAME: process.env.CUSTOM_MODEL_NAME || "",
   },
 
   // ── Rewrite Proxy ──────────────────────────────────────────
