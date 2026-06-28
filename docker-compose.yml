@@ -4,7 +4,7 @@ services:
     container_name: lazy-agent-client
     restart: unless-stopped
     ports:
-      - "3334:3334"
+      - "3334:3333"
     env_file:
       - .env
     environment:
@@ -20,7 +20,7 @@ services:
           "--tries=1",
           "-O",
           "/dev/null",
-          "http://localhost:3334/",
+          "http://localhost:3333/",
         ]
       interval: 30s
       timeout: 5s

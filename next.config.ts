@@ -13,8 +13,12 @@ const vault = createVaultClient();
 
 const secrets = vault.fetchSync();
 
-// Inject into process.env so secrets.js can read them
-Object.assign(process.env, secrets);
+// Inject only missing secrets into process.env to allow local env overrides
+for (const key in secrets) {
+  if (process.env[key] === undefined) {
+    process.env[key] = secrets[key];
+  }
+}
 
 // Resolved tools-service URL for the rewrite proxy (server-side only).
 // Tools-service is internal (no public hostname) — the browser calls
