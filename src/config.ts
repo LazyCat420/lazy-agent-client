@@ -40,10 +40,7 @@ export const PROJECT_NAME = IS_PRODUCTION ? "lazy-agent-client" : "lazy-agent-cl
 
 // -- Raw values from process.env --------------------------------
 const RAW_PRISM_URL =
-  process.env.NEXT_PUBLIC_LAZY_TOOL_SERVICE_URL ||
-  process.env.LAZY_TOOL_SERVICE_URL ||
-  process.env.NEXT_PUBLIC_PRISM_SERVICE_URL ||
-  process.env.PRISM_SERVICE_URL;
+  process.env.NEXT_PUBLIC_PRISM_SERVICE_URL || process.env.PRISM_SERVICE_URL;
 const RAW_WS_URL =
   process.env.NEXT_PUBLIC_PRISM_WS_URL || process.env.PRISM_WS_URL;
 const RAW_TOOLS_URL =
