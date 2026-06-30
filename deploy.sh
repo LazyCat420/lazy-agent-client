@@ -35,6 +35,9 @@ PRE_BUILD() {
     BUILD_SECRETS="--secret id=VAULT_SERVICE_TOKEN,env=VAULT_SERVICE_TOKEN"
     info "Vault token: ****${VAULT_SERVICE_TOKEN: -8}"
   fi
+
+  step "Copying projects.json from vault-service"
+  cp "${SCRIPT_DIR}/../vault-service/projects.json" "${SCRIPT_DIR}/projects.json"
 }
 
 EXTRA_SSH_SYNC() {
