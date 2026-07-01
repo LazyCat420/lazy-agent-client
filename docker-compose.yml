@@ -9,7 +9,6 @@ services:
       - .env
     environment:
       - TZ=America/Los_Angeles
-      - AUTH_SECRET=${AUTH_SECRET}
     volumes:
       - /usr/share/zoneinfo/America/Los_Angeles:/etc/localtime:ro
       - ./projects.json:/app/projects.json:ro
